@@ -2,6 +2,7 @@ library(shiny)
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(readr))
+suppressPackageStartupMessages(library(htmltools))
 
 suppressPackageStartupMessages(library(tigris))
 suppressPackageStartupMessages(library(sp))
@@ -18,12 +19,12 @@ library(plotly)
 
 states <- states(cb=TRUE)
 states <- as_Spatial(states, cast = TRUE)
-states <- states[!states@data$STUSPS %in% c("AK", "HI", "VI","GU","MP","PR"), ]
+states <- states[!states@data$STUSPS %in% c("VI","GU","MP","PR"), ]
 states@data$NAME <- tolower(states@data$NAME)
 
-df <- read_csv("county_level_denialrate.csv")
+df <- read_csv("county_level_denialrate.csv") %>% subset(select = -X1)
 lei <- read_csv('lei.csv') %>% filter(debt_to_income_ratio_bracket != ">60%")
-lei$denial_rate_adj <- ifelse(lei$total_loans < 100, NA, lei$denial_rate)   
+lei$denial_rate_adj <- ifelse(lei$total_loans < 100, NA, lei$denial_rate)
 
 left <- read_csv('df.csv')
 
@@ -34,30 +35,39 @@ sidebar_yaxis <- list(
   zerolinewidth = 2,
   showgrid = FALSE)
 
-  
 #Join up a statewide denial rate.
-## ADD HERE: LENDER DENIAL RATES FOR RACE / ETHNICITY
 df_state <- df %>% 
-  filter(!state_code%in%c("AK","HI")) %>% 
+  #filter(!state_code%in%c("AK","HI")) %>% 
   group_by(state_code) %>% 
-  summarize(denial_rate = sum(loan_failed) / sum(total_loans))
+  summarize(white_apps = sum(white_apps),
+            black_apps = sum(black_apps),
+            asian_apps = sum(asian_apps),
+            hisp_apps = sum(hisp_apps),
+            white_fails = sum(white_fails),
+            hisp_fails = sum(hisp_fails),
+            black_fails = sum(black_fails),
+            asian_fails = sum(asian_fails),
+            denial_rate = round(sum(loan_failed) / sum(total_loans),3)*100,
+            white_app_rate = round(white_apps / sum(total_loans),3)*100,
+            hisp_app_rate = round(hisp_apps / sum(total_loans),3)*100,
+            black_app_rate = round(black_apps / sum(total_loans),3)*100,
+            asian_app_rate = round(asian_apps / sum(total_loans),3)*100) %>% 
+  mutate(white_denial_rate=round(white_fails / white_apps,3)*100,
+         hisp_denial_rate=round(hisp_fails / hisp_apps,3)*100,
+         black_denial_rate=round(black_fails / black_apps,3)*100,
+         asian_denial_rate= round(asian_fails / asian_apps,3)*100) %>% 
+  subset(select = -c(white_fails,hisp_fails,black_fails,asian_fails,white_apps,hisp_apps,black_apps,asian_apps))
 
-states@data <- merge(states@data, df_state, by.x = "STUSPS", by.y = "state_code", all=TRUE)
 
-numcat <- 6
-cate <- classIntervals(states@data$denial_rate, numcat, style="kmeans")
-color.pal <- brewer.pal(numcat,"Reds")
-brks <- cate$brks
-leg <- list(paste0(round(brks[1],1),"% - ",round(brks[2]*100,1),"%"),
-     paste0(round(brks[2]*100,1),"% - ",round(brks[3]*100,1),"%"),
-     paste0(round(brks[3]*100,1),"% - ",round(brks[4]*100,1),"%"),
-     paste0(round(brks[4]*100,1),"% - ",round(brks[5]*100,1),"%"),
-     paste0(round(brks[5]*100,1),"% - ",round(brks[6]*100,1),"%"),
-     paste0(round(brks[6]*100,1),"% - ",round(brks[7]*100,1),"%"))
+states <- sp::merge(states, df_state, by.x = "STUSPS", by.y = "state_code", all=TRUE)
+pal <- colorNumeric(
+  palette = "Reds", domain = states$denial_rate, na.color = NA
+)
 
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
+      
       #sidebar-top {
         position:fixed;
         top:0;
@@ -91,6 +101,10 @@ ui <- fluidPage(
         height:300px;
       }
       
+      .chartTitle {
+        font-size:12px;
+      }
+      
       #source {
         position:fixed;
         right:0;
@@ -120,9 +134,8 @@ ui <- fluidPage(
         background:white;
       }
       
-      h4 {
-        padding-left:20%;
-        padding-right:20%;
+      #forcepad {
+        height: 15px;
       }
       
     "))
@@ -137,23 +150,25 @@ ui <- fluidPage(
         ))
       
       
-      ),#Sidebar-top
+  ),#Sidebar-top
   
   div(id="sidebar",
       tabsetPanel(
         tabPanel("Race and ethnicity",
-          h4("Pct. of mortgage applicants who failed to get a home loan"),
-          div(class="plotpad",
-            div(class="plotborder",plotlyOutput("whitePlot", height = "80px")),
-            div(class="plotborder",plotlyOutput("hispPlot", height = "80px")),
-            div(class="plotborder",plotlyOutput("blackPlot", height = "80px")),
-            div(class="plotborder",plotlyOutput("asianPlot", height = "80px"))
-          ),#plotpad
-          div(id="notes",strong("RATE ONLY SHOWN WHEN 100 OR MORE SAMPLES PRESENT"))
+                 div(id="forcepad"),
+                 strong(class="chartTitle", "% OF MORTGAGE APPLICANTS WHO FAILED TO GET A HOME LOAN"),
+                 div(class="plotpad",
+                     div(class="plotborder",plotlyOutput("whitePlot", height = "80px")),
+                     div(class="plotborder",plotlyOutput("hispPlot", height = "80px")),
+                     div(class="plotborder",plotlyOutput("blackPlot", height = "80px")),
+                     div(class="plotborder",plotlyOutput("asianPlot", height = "80px"))
+                 ),#plotpad
+                 div(id="notes",strong("RATE ONLY SHOWN WHEN 100 OR MORE SAMPLES PRESENT"))
         ),#tabPanel1
         tabPanel(
           "Top 5 Lenders",
-          h4("Pct. of mortgage applicants who failed to get a home loan"),
+          div(id="forcepad"),
+          strong(class="chartTitle", "% OF MORTGAGE APPLICANTS WHO FAILED TO GET A HOME LOAN"),
           div(class="plotpad", id="leiPlot", plotlyOutput("leiPlot")),
           div(id="notes",strong("RATE ONLY SHOWN WHEN 100 OR MORE SAMPLES PRESENT"))
         )#tabPanel2
@@ -162,7 +177,7 @@ ui <- fluidPage(
   div(id="source",strong("YEARS: 2018-2020 | SOURCE: CONSUMER FINANCIAL PROTECTION BUREAU")),
   leafletOutput('map')
   
-#  )
+  #  )
 )
 
 server <- function(input, output){
@@ -190,12 +205,12 @@ server <- function(input, output){
     
     if ((hl()<50 & hl()!=999 & nhw()<50 & nhw()!=999 & nhb()<50 & nhb()!=999 & nha()<50 & nha()!=999) == TRUE) {
       sidebar_xaxis <<- list(
-      range = c(0,50),
-      tickvals=list(0,25,50),
-      ticktext = list("0%","25%","50%"),
-      zerolinecolor = '#ffff',
-      zerolinewidth = 2,
-      showgrid = FALSE) 
+        range = c(0,50),
+        tickvals=list(0,25,50),
+        ticktext = list("0%","25%","50%"),
+        zerolinecolor = '#ffff',
+        zerolinewidth = 2,
+        showgrid = FALSE) 
       
       heatbar <<- list(
         list(
@@ -249,30 +264,40 @@ server <- function(input, output){
     } # End of else
   })
   
-  
-  
   #BEGINNING OF MAP
   output$map = renderLeaflet({
+    
+    labs <- lapply(seq(nrow(states)), function(i) {
+      paste0("<h4>",states@data[i,"STUSPS"],"</h4>",
+             '<p><strong>Overall denial rate:</strong> ',states@data[i,"denial_rate"],'%<p>', 
+             '<p><strong>White |</strong> Denial rate: ',states@data[i,"white_denial_rate"],'%, Portion of applicants: ', states@data[i,"white_app_rate"],'%</p>',
+             '<p><strong>Black |</strong> Denial rate: ',states@data[i,"black_denial_rate"],'%, Portion of applicants: ', states@data[i,"black_app_rate"],'%</p>',
+             '<p><strong>Hispanic or Latino |</strong> Denial rate: ',states@data[i,"hisp_denial_rate"],'%, Portion of applicants: ', states@data[i,"hisp_app_rate"],'%</p>',
+             '<p><strong>Asian |</strong> Denial rate: ',states@data[i,"asian_denial_rate"],'%, Portion of applicants: ', states@data[i,"asian_app_rate"],'%</p>')
+    })
+    
     m <<- leaflet(states, options = leafletOptions(zoomControl = FALSE)) %>%
       setView(-115, 38.5, 4) %>% 
       addProviderTiles("MapBox", options = providerTileOptions(
         id = "mapbox.light",
         accessToken = Sys.getenv('pk.eyJ1IjoibWstd2lsZGVtYW4iLCJhIjoiY2t4aHRldzJuMDNzejJucG45MjJjYWpucyJ9.9w4xxT5P8uyWW616aKDpag'))) %>% 
       addPolygons(
-        fillColor = color.pal,
+        fillColor = ~pal(denial_rate),
         weight = 2.5,
         opacity = 1,
         color = "white",
-        fillOpacity = .95
+        fillOpacity = .95,
+        label= ~lapply(labs, htmltools::HTML)
       ) %>% 
       addLegend(
-        colors = color.pal, 
-        labels = leg, 
-        position = "topright", 
-        title="Denial rate",
-        opacity = .95
+        pal = pal, 
+        values = ~denial_rate,
+        title = "Overall denial rate",
+        labFormat = labelFormat(suffix = "%"),
+        opacity = 1,
+        na.label = NULL
       )
-    
+      
   }) #Leaflet output
   
   observeEvent(input$map_shape_click, {
@@ -293,42 +318,64 @@ server <- function(input, output){
     
     #Time to load Texas when cb = TRUE, 7.3 seconds, 12.8 seconds without
     
+    df_county <- df %>% 
+      filter(state_code==reac_state()) %>%
+      mutate(white_app_rate = round(white_apps / total_loans,3)*100,
+             hisp_app_rate = round(hisp_apps / total_loans,3)*100,
+             black_app_rate = round(black_apps / total_loans,3)*100,
+             asian_app_rate = round(asian_apps / total_loans,3)*100,
+             white_denial_rate=round(white_fails / white_apps,3)*100,
+             hisp_denial_rate=round(hisp_fails / hisp_apps,3)*100,
+             black_denial_rate=round(black_fails / black_apps,3)*100,
+             asian_denial_rate=round(asian_fails / asian_apps,3)*100)
+    
+    df_county$denial_rate <- ifelse(df_county$total_loans < 100, NA, df_county$denial_rate)
+    df_county$white_denial_rate <- ifelse(df_county$white_apps < 100, NA, df_county$white_app_rate)
+    df_county$hisp_denial_rate <- ifelse(df_county$hisp_apps < 100, NA, df_county$hisp_app_rate)
+    df_county$black_denial_rate <- ifelse(df_county$black_apps < 100, NA, df_county$black_app_rate)
+    df_county$asian_denial_rate <- ifelse(df_county$asian_apps < 100, NA, df_county$asian_denial_rate)
+    
+    df_county <- df_county %>% 
+      subset(select = -c(white_fails,hisp_fails,black_fails,asian_fails,white_apps,hisp_apps,black_apps,asian_apps))
+    
     counties <- counties(state=reac_state_code(), cb=TRUE)
     counties <- as_Spatial(counties, cast = TRUE)
+    counties <- sp::merge(counties, df_county, by.x="GEOID", by.y="county_code", all=TRUE)
     
-    df_county <- df %>% 
-      filter(state_code==reac_state()) %>% 
-      group_by(county_code) %>% 
-      summarize(denial_rate = sum(loan_failed) / sum(total_loans))
-    counties@data <- merge(counties@data, df_county, by.x="GEOID", by.y="county_code", all.x=TRUE)
-    
-    numcat <- 6
-    cate <- classIntervals(counties@data$denial_rate, numcat, style="kmeans")
-    color.pal <- brewer.pal(numcat,"Reds")
-    brks <- cate$brks
-    leg <- list(paste0(round(brks[1],1),"% - ",round(brks[2]*100,1),"%"),
-                paste0(round(brks[2]*100,1),"% - ",round(brks[3]*100,1),"%"),
-                paste0(round(brks[3]*100,1),"% - ",round(brks[4]*100,1),"%"),
-                paste0(round(brks[4]*100,1),"% - ",round(brks[5]*100,1),"%"),
-                paste0(round(brks[5]*100,1),"% - ",round(brks[6]*100,1),"%"),
-                paste0(round(brks[6]*100,1),"% - ",round(brks[7]*100,1),"%"))
+    pal <- colorNumeric(
+      palette = "Reds", domain = counties$denial_rate, na.color = "gray"
+    )
     
     output$map = renderLeaflet({
-      popup <- paste("popup text would go here")
+      labs <- lapply(seq(nrow(counties)), function(i) {
+        paste0("<h4>",counties@data[i,"NAMELSAD"],"</h4>",
+               '<p><strong>Overall denial rate:</strong> ',counties@data[i,"denial_rate"],'%, Total no. of applications: ', counties@data[i,"total_loans"],'<p>', 
+               '<p><strong>% of white |</strong> applicants denied: ',counties@data[i,"white_denial_rate"],'%, Portion of applicants: ', counties@data[i,"white_app_rate"],'%</p>',
+               '<p><strong>% of Black |</strong> applicants denied: ',counties@data[i,"black_denial_rate"],'%, Portion of applicants: ', counties@data[i,"black_app_rate"],'%</p>',
+               '<p><strong>% of Hispanic or Latino |</strong> applicants denied: ',counties@data[i,"hisp_denial_rate"],'%, Portion of applicants: ', counties@data[i,"hisp_app_rate"],'%</p>',
+               '<p><strong>% of Asian |</strong> applicants denied: ',counties@data[i,"asian_denial_rate"],'%, Portion of applicants: ', counties@data[i,"asian_app_rate"],'%</p>',
+               '<p><i>Rates only displayed with 100 or more records</i></p>')
+      })
+      
       
       #If we made this variable reactive as well then it wouldn't clear the state selection on each click.
       m <- m %>% 
-        addPolygons(data=counties, weight = 1.5, fillColor = color.pal, color = "white",fillOpacity = .95) %>% 
+        addPolygons(data=counties, 
+                    weight = 1.5, 
+                    fillColor = ~pal(denial_rate), 
+                    color = "white",
+                    label= ~lapply(labs, htmltools::HTML),
+                    fillOpacity = .95) %>% 
         clearControls() %>% 
         setView(lon-5, lat, 6) %>% 
         addLegend(
-          colors = color.pal, 
-          labels = leg, 
-          position = "topright", 
-          title="Denial rate",
-          opacity = .95
+          pal = pal, 
+          values = ~counties$denial_rate,
+          title = "Overall denial rate",
+          labFormat = labelFormat(suffix = "%"),
+          opacity = 1
         )
-    
+      
     }) ### END OF NEW COUNTIES LAYER MAP
     
   }) # End of observeEvent(input$map_shape_click)
@@ -441,8 +488,6 @@ server <- function(input, output){
           title=""
         ),
         yaxis = list(
-          #tickvals=list(0,10,20,30,40,50,60,70,80,90,100),
-          #ticktext=list("0%","10%","20%","30%","40%","50%","60%","70%","80%","90%","100%"),
           title=""
         )
       )
@@ -454,6 +499,3 @@ server <- function(input, output){
 }
 
 shinyApp(ui, server)
-
-
-#
