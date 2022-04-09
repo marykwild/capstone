@@ -9,7 +9,7 @@ In Texas, about 19% of Hispanic or Latino applicants who made between $200,000 a
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
-<img src="https://marykwild.github.io/capstone/lenderplot.png" alt="drawing" width="300"/>
+<img src="https://marykwild.github.io/capstone/lenderplot.png" alt="drawing" width="300" align="center"/>
 
 <h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
 
