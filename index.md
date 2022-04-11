@@ -20,6 +20,8 @@ Drilling down to individual lenders, it's clear each of the top five mortgage un
 <iframe src="graphics/lenderplot.html" width = "500" height = "250"></iframe>
 (Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)
 
+Some critical information likely to influence a lender's decision, including the applicant's credit score and the size of the down payment they planned to make, is missing. However, we were able to predict whether a loan would fail or not with above 90% accuracy using the variables available in the data using a random forest model. 
+
 <h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
 
 And stay tuned, as the full data from 2021 is expected to be released in June.
