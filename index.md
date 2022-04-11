@@ -10,7 +10,7 @@ The same takeaway can be found in Florida.
 <iframe src="graphics/p1.html" width = "900" height = "500"></iframe>
 
 Where:
-- Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k
+- <mark style="background-color: #FFFF00"> Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k </mark>
 - Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k
 - Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k
 - Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k
