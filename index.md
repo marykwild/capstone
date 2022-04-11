@@ -5,14 +5,18 @@ Our data analysis — using information that only became available in 2018 — s
 For example, in South Carolina, white mortgage applicants who make between $100,000 and $150,000 in income and have a 20%-29% debt-to-income ratio were denied a loan just 5% of the time between 2018 and 2020. But Black applicants with the same financial characteristics failed to secure a loan 21% of the time.
 The trend is true even for applicants with relatively high income.
 
-In Texas, about 19% of Hispanic or Latino applicants who made between $200,000 and $250,000 and had a lower than 20% debt-to-income ratio failed to secure a loan. Compare that to 7% of white applicants.
+The same takeaway can be found in Florida.
+
+<iframe src="graphics/p1.html" height="500" width="500"></iframe>
+
+Where:
+- Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k
+- Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k
+- Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k
+- Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
-<p align="center">
-<img src="https://marykwild.github.io/capstone/lenderplot.png" alt="drawing" width="300"/>
-</p>
-  
 <h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
 
 And stay tuned, as the full data from 2021 is expected to be released in June.
