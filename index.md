@@ -7,7 +7,7 @@ The trend is true even for applicants with relatively high income.
 
 The same takeaway can be found in Florida.
 
-<iframe src="graphics/p1.html" width = "500" height = "500"></iframe>
+<iframe src="graphics/p1.html" width = "700" height = "500"></iframe>
 
 Where:
 - Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k
