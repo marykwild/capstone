@@ -10,10 +10,10 @@ The same takeaway can be found in Florida.
 <iframe src="graphics/p1.html" width = "900" height = "500"></iframe>
 
 Where:
-- <mark style="background-color: #1f77b4"> Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k </mark>
-- <mark style="background-color: #ff7f0e">Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k </mark>
-- <mark style="background-color: #2ca02c">Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k </mark>
-- <mark style="background-color: #d62728">Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k </mark>
+- <mark style="background-color: #1f77b4; color:#ffffff"> Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k </mark>
+- <mark style="background-color: #ff7f0e; color:#ffffff">Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k </mark>
+- <mark style="background-color: #2ca02c; color:#ffffff">Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k </mark>
+- <mark style="background-color: #d62728; color:#ffffff">Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k </mark>
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
