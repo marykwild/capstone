@@ -17,6 +17,9 @@ Where:
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
+<iframe src="graphics/lenderplot.html" height="500" width="500"></iframe>
+(Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)
+
 <h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
 
 And stay tuned, as the full data from 2021 is expected to be released in June.
