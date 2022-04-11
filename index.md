@@ -9,16 +9,16 @@ The same takeaway can be found in Florida.
 
 <iframe src="graphics/p1.html" width = "900" height = "500"></iframe>
 
-<i>Where:
+Where:
 - Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k
 - Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k
 - Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k
-- Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k</i>
+- Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
-<iframe src="graphics/lenderplot.html" width = "800" height = "350"></iframe>
-<i>(Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)</i>
+<iframe src="graphics/lenderplot.html" width = "700" height = "350"></iframe>
+(Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)
 
 Some critical information likely to influence a lender's decision, including the applicant's credit score and the size of the down payment they planned to make, is missing. However, we were able to predict whether a loan would fail or not with above 90% accuracy using the variables available in the data using a random forest model. 
 
