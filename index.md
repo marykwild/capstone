@@ -11,11 +11,12 @@ The same takeaway can be found in Florida.
 
 <iframe title="Even in the same income, debt and loan brackets, white applicants win a loan more often in FL" aria-label="Grouped Bars" id="datawrapper-chart-1PqYq" src="https://datawrapper.dwcdn.net/1PqYq/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="676"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
 </script>
+<hr>
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
-<iframe src="graphics/lenderplot.html" width = "700" height = "350"></iframe>
-(Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)
+<iframe title="Major lenders deny mortgage applicants at different rates, even when they have similar debt and income levels" aria-label="Grouped Bars" id="datawrapper-chart-WJLx9" src="https://datawrapper.dwcdn.net/WJLx9/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="645"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
 
 Some critical information likely to influence a lender's decision, including the applicant's credit score and the size of the down payment they planned to make, is missing. However, we were able to predict whether a loan would fail or not with above 90% accuracy using the variables available in the data using a random forest model. 
 
