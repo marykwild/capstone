@@ -1,5 +1,7 @@
 As the number of people seeking home loans in America has shot up in recent years during a period of historic demand, an analysis of data from the Consumer Financial Protection Bureau shows even as the likelihood of denial has gone down, certain factors leave the door to the housing market more open to some than others.
 
+<h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
+
 Our data analysis — using information that only became available in 2018 — suggests non-white borrowers are at a disadvantage when seeking a home loan. Even when controlling for income and debt-to-income ratio, non-Hispanic Black and Latinx applicants are consistently denied a mortgage at higher rates than whites. 
 
 For example, in South Carolina, white mortgage applicants who make between $100,000 and $150,000 in income and have a 20%-29% debt-to-income ratio were denied a loan just 5% of the time between 2018 and 2020. But Black applicants with the same financial characteristics failed to secure a loan 21% of the time.
@@ -21,7 +23,5 @@ Drilling down to individual lenders, it's clear each of the top five mortgage un
 (Where applicants' debt-to-income ratio = 40%-49% and income = $100k to $150k)
 
 Some critical information likely to influence a lender's decision, including the applicant's credit score and the size of the down payment they planned to make, is missing. However, we were able to predict whether a loan would fail or not with above 90% accuracy using the variables available in the data using a random forest model. 
-
-<h3><a href="https://mkwildeman.shinyapps.io/mortgagebias/">Explore the Shiny app I built here to see how these rates differ for yourself.</a></h3>
 
 And stay tuned, as the full data from 2021 is expected to be released in June.
