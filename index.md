@@ -9,13 +9,8 @@ The trend is true even for applicants with relatively high income.
 
 The same takeaway can be found in Florida.
 
-<iframe src="graphics/p1.html" width = "900" height = "500"></iframe>
-
-Where:
-- <mark style="background-color: #1f77b4; color:#ffffff"> Medium debt, income and loan: Debt-to-income ratio = 30%-39% & income = $100k to $150k & loan size = $200k to $250k </mark>
-- <mark style="background-color: #ff7f0e; color:#ffffff">Higher debt, lower income, medium loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $200k to $250k </mark>
-- <mark style="background-color: #2ca02c; color:#ffffff">Higher debt, medium income, larger loan: Debt-to-income ratio = 40%-49% & income = $100k to $150k & loan size = $350k to $400k </mark>
-- <mark style="background-color: #d62728; color:#ffffff">Higher debt, lower income, smaller loan: Debt-to-income ratio = 40%-49% & income = $50k to $100k & loan size = $150k to $200k </mark>
+<iframe title="Even in the same income, debt and loan brackets, white applicants win a loan more often in FL" aria-label="Grouped Bars" id="datawrapper-chart-1PqYq" src="https://datawrapper.dwcdn.net/1PqYq/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="676"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(e){if(void 0!==e.data["datawrapper-height"]){var t=document.querySelectorAll("iframe");for(var a in e.data["datawrapper-height"])for(var r=0;r<t.length;r++){if(t[r].contentWindow===e.source)t[r].style.height=e.data["datawrapper-height"][a]+"px"}}}))}();
+</script>
 
 Drilling down to individual lenders, it's clear each of the top five mortgage underwriters deny Black applicants at higher rates than whites, begging the question of what other data points lenders may be relying on when making decisions, and to what extent human biases could be in play.
 
